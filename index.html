@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staff | Oklahoma State Hockey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Everything is scoped under #osu-staff so it won't clash with the GoDaddy theme */
+  #osu-staff {
+    --orange: #FF7300;
+    --orange-dark: #D95F00;
+    --black: #0B0B0B;
+    --ink: #1A1A1A;
+    --gray-900: #222;
+    --gray-600: #5E5E5E;
+    --gray-300: #D6D6D6;
+    --gray-100: #F3F3F3;
+    --white: #FFF;
+    --radius: 6px;
+    font-family: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--white);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  #osu-staff *, #osu-staff *::before, #osu-staff *::after { box-sizing: border-box; }
+  #osu-staff img { display: block; max-width: 100%; }
+  #osu-staff button { font: inherit; }
+
+  /* ---------- Hero ---------- */
+  #osu-staff .hero { background: var(--black); color: var(--white); }
+  #osu-staff .hero-inner {
+    max-width: 1200px; margin: 0 auto;
+    padding: 56px 24px;
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 48px; align-items: center;
+  }
+  #osu-staff .eyebrow {
+    display: inline-block;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700; font-size: 15px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+  #osu-staff .hero h1 {
+    margin: 0;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800; font-size: clamp(48px, 7vw, 88px); line-height: .9;
+    text-transform: uppercase; letter-spacing: .01em;
+  }
+  #osu-staff .hero p {
+    margin: 16px 0 0; max-width: 460px;
+    font-size: 18px; color: rgba(255,255,255,.82);
+  }
+  #osu-staff .collage {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+  }
+  #osu-staff .collage img {
+    width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+    border-radius: 4px; background: #1c1c1c;
+  }
+  #osu-staff .collage .wide { grid-column: 1 / -1; aspect-ratio: 2 / 1; }
+  #osu-staff .stripe { height: 6px; background: var(--orange); }
+
+  /* ---------- Filter tabs ---------- */
+  #osu-staff .filters-wrap {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-300);
+  }
+  #osu-staff .filters {
+    max-width: 1200px; margin: 0 auto; padding: 0 24px;
+    display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none;
+  }
+  #osu-staff .filters::-webkit-scrollbar { display: none; }
+  #osu-staff .filter {
+    flex: none;
+    background: none; border: 0; cursor: pointer;
+    padding: 16px 14px 14px;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700; font-size: 16px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--gray-600);
+    border-bottom: 3px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  #osu-staff .filter:hover { color: var(--ink); }
+  #osu-staff .filter[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--orange); }
+
+  /* ---------- Sections & grid ---------- */
+  #osu-staff main { max-width: 1200px; margin: 0 auto; padding: 24px 24px 80px; }
+  #osu-staff .group { padding-top: 32px; }
+  #osu-staff .group[hidden] { display: none; }
+  #osu-staff .group-head {
+    display: flex; align-items: center; gap: 16px;
+    margin: 0 0 22px;
+  }
+  #osu-staff .group-head h2 {
+    margin: 0; flex: none;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800; font-size: 30px; text-transform: uppercase; letter-spacing: .02em;
+  }
+  #osu-staff .group-head::after { content: ""; flex: 1; height: 2px; background: var(--gray-300); }
+
+  #osu-staff .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 28px 22px;
+  }
+
+  /* ---------- Card ---------- */
+  #osu-staff .card {
+    display: flex; flex-direction: column; justify-content: flex-start; align-self: start;
+    width: 100%; text-align: left;
+    background: none; border: 0; padding: 0; cursor: pointer;
+    color: inherit;
+  }
+  #osu-staff .photo {
+    position: relative; overflow: hidden;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius);
+    background: var(--gray-100);
+  }
+  #osu-staff .photo img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .35s ease;
+  }
+  #osu-staff .photo::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px;
+    background: var(--orange);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .3s ease;
+  }
+  #osu-staff .card:hover .photo img,
+  #osu-staff .card:focus-visible .photo img { transform: scale(1.04); }
+  #osu-staff .card:hover .photo::after,
+  #osu-staff .card:focus-visible .photo::after { transform: scaleX(1); }
+  #osu-staff .card.static { cursor: default; }
+  #osu-staff .card.static:hover .photo img { transform: none; }
+  #osu-staff .card.static:hover .photo::after { transform: scaleX(0); }
+  #osu-staff .card:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; border-radius: var(--radius); }
+
+  #osu-staff .placeholder {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    background: linear-gradient(160deg, #2a2a2a, #111);
+    color: var(--orange);
+    font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 64px;
+  }
+
+  #osu-staff .info { padding: 14px 2px 0; }
+  #osu-staff .title {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--orange-dark);
+  }
+  #osu-staff .name {
+    margin: 2px 0 4px;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700; font-size: 26px; line-height: 1.05; text-transform: uppercase;
+  }
+  #osu-staff .hometown {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 14px; color: var(--gray-600);
+  }
+  #osu-staff .hometown svg { width: 14px; height: 14px; flex: none; fill: currentColor; }
+  #osu-staff .more {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink);
+  }
+  #osu-staff .more span { transition: transform .2s; color: var(--orange); }
+  #osu-staff .card:hover .more span { transform: translateX(4px); }
+
+  /* ---------- Bio modal ---------- */
+  #osu-staff .modal {
+    position: fixed; inset: 0; z-index: 1000;
+    display: none; align-items: center; justify-content: center;
+    padding: 24px;
+    background: rgba(0,0,0,.72);
+  }
+  #osu-staff { position: relative; }
+  #osu-staff.embedded .modal { position: absolute; bottom: auto; align-items: flex-start; }
+  #osu-staff.embedded .sheet { max-height: none; }
+  #osu-staff .modal.open { display: flex; animation: osuFade .2s ease; }
+  @keyframes osuFade { from { opacity: 0; } to { opacity: 1; } }
+  #osu-staff .sheet {
+    position: relative;
+    width: 100%; max-width: 860px; max-height: calc(100vh - 48px);
+    overflow: auto;
+    display: grid; grid-template-columns: 320px 1fr;
+    background: var(--white); border-radius: 8px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.4);
+  }
+  #osu-staff .sheet-photo { position: relative; background: var(--gray-100); min-height: 400px; }
+  #osu-staff .sheet-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  #osu-staff .sheet-body { padding: 40px 36px 36px; border-top: 6px solid var(--orange); }
+  #osu-staff .sheet-body .name { font-size: 40px; margin: 4px 0 8px; }
+  #osu-staff .sheet-body .hometown { font-size: 15px; }
+  #osu-staff .bio { margin: 20px 0 0; font-size: 16px; color: var(--gray-900); }
+  #osu-staff .bio p { margin: 0 0 12px; }
+  #osu-staff .close {
+    position: absolute; top: 12px; right: 12px; z-index: 2;
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 0; cursor: pointer;
+    background: var(--black); color: var(--white);
+    font-size: 24px; line-height: 1;
+  }
+  #osu-staff .close:hover { background: var(--orange); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    #osu-staff .hero-inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    #osu-staff .hero-inner { padding: 40px 16px 28px; gap: 28px; }
+    #osu-staff .collage { gap: 6px; }
+    #osu-staff .filters { padding: 0 8px; }
+    #osu-staff main { padding: 8px 16px 56px; }
+    #osu-staff .grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }
+    #osu-staff .name { font-size: 21px; }
+    #osu-staff .title { font-size: 12px; }
+    #osu-staff .hometown { font-size: 13px; }
+    #osu-staff .group-head h2 { font-size: 24px; }
+    #osu-staff .modal { padding: 0; align-items: flex-end; }
+    #osu-staff .sheet { grid-template-columns: 1fr; max-height: 92vh; border-radius: 12px 12px 0 0; }
+    #osu-staff .sheet-photo { min-height: 0; aspect-ratio: 4 / 3; }
+    #osu-staff .sheet-photo img { object-position: center 20%; }
+    #osu-staff .sheet-body { padding: 24px 20px 32px; }
+    #osu-staff .sheet-body .name { font-size: 32px; }
+    #osu-staff.embedded .modal { padding: 0 10px; }
+    #osu-staff.embedded .sheet { border-radius: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #osu-staff * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body style="margin:0">
+
+<div id="osu-staff">
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="eyebrow">Oklahoma State Hockey &middot; 2026&ndash;27</span>
+        <h1>Meet the Staff</h1>
+        <p>The staff that makes Oklahoma State Hockey possible.</p>
+      </div>
+      <div class="collage">
+        <img class="wide" src="images/collage-group.jpg" alt="Oklahoma State Hockey staff group photo">
+        <img src="images/collage-mural.jpg" alt="Staff members in front of the Go Pokes mural" loading="lazy">
+        <img src="images/collage-trio.jpg" alt="Staff members at media day" loading="lazy">
+      </div>
+    </div>
+  </header>
+  <div class="stripe"></div>
+
+  <nav class="filters-wrap" aria-label="Filter staff by department">
+    <div class="filters" id="osu-filters"></div>
+  </nav>
+
+  <main id="osu-groups"></main>
+
+  <div class="modal" id="osu-modal" role="dialog" aria-modal="true" aria-labelledby="osu-modal-name">
+    <div class="sheet">
+      <button class="close" id="osu-close" aria-label="Close">&times;</button>
+      <div class="sheet-photo" id="osu-modal-photo"></div>
+      <div class="sheet-body">
+        <div class="title" id="osu-modal-title"></div>
+        <h3 class="name" id="osu-modal-name"></h3>
+        <div class="hometown" id="osu-modal-hometown"></div>
+        <div class="bio" id="osu-modal-bio"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* ================================================================
+     EDIT HERE
+     IMG_BASE: folder (or full URL) where the headshots live.
+       - Local / own hosting: "images/"
+       - GoDaddy Website Builder: upload the photos, then paste each
+         photo's full URL into `photo` below and set IMG_BASE to "".
+     ================================================================ */
+  var IMG_BASE = "images/";
+  var root = document.getElementById("osu-staff");
+  var EMBEDDED = window.parent !== window;
+  if (EMBEDDED) root.classList.add("embedded");
+
+  // Tabs/sections appear in this order. Staff appear in the order listed.
+  var GROUPS = [
+    "Executive Board",
+    "Student Committee",
+    "Coaching Staff"
+  ];
+
+  // photo: filename inside IMG_BASE (e.g. "headshot-12.jpg"), or "" for a placeholder
+  // bio: blank line ("\n\n") starts a new paragraph; "" hides the Read Bio link
+  var STAFF = [
+    /* ---------- Executive Board ---------- */
+    {
+      group: "Executive Board",
+      name: "Colleen Harvey",
+      title: "Chief Executive Officer",
+      hometown: "Oakdale, Long Island, N.Y.",
+      photo: "headshot-colleen.jpg",
+      bio: "Colleen Harvey brings experience in leadership, operations, organizational management, and team development to Oklahoma State Hockey. A native of Oakdale on Long Island, New York, Colleen moved to Stillwater for graduate school and got involved with the program as a homesick first-year grad student.\n\nOver five years with Oklahoma State Hockey, Colleen has taken on a range of leadership and executive responsibilities, with a focus on strengthening the organization, developing its brand, supporting its players and staff, and building meaningful relationships within the community. Colleen takes pride in leading by taking on challenges, finding solutions, and continuing to learn and improve along the way."
+    },
+    {
+      group: "Executive Board",
+      name: "Katie Yocum",
+      title: "Chief Operations Officer",
+      hometown: "Snowmass Village, Colo.",
+      photo: "headshot-21.jpg",
+      bio: "Completing her fourth year with the team, Katie comes from a strong hockey background and has played the game since she was four years old. She went on to play collegiate hockey at the University of Denver, bringing years of playing experience and a passion for the game into her role with the Cowboys."
+    },
+    {
+      group: "Executive Board",
+      name: "Andrew Karaoulis",
+      title: "Head of Recruitment & Player Personnel",
+      hometown: "Ajax, Ontario, Canada",
+      photo: "headshot-39.jpg",
+      bio: "An alumnus of the program, Andrew played for Oklahoma State Hockey during the 2023–24 season, where he served as an Assistant Captain. After graduating with an M.S. in 2024, Andrew took over recruiting for the team, helping lead the Cowboys to their first National Tournament appearance in 2026. Andrew is a native of Ajax, Ontario, Canada, where he returns home in the offseason."
+    },
+    {
+      group: "Executive Board",
+      name: "Thomas Lambo",
+      title: "Associate Director of Recruitment & Alumni Relations",
+      hometown: "Calgary, Alberta, Canada",
+      photo: "headshot-28.jpg",
+      bio: "Thomas has been a dedicated member of the program for five years, contributing both as a player and staff member. Originally from Calgary, Alberta, he brings 18 years of hockey experience and continues to play an active role in the growth and development of the program."
+    },
+    {
+      group: "Executive Board",
+      name: "Luke Spinelli",
+      title: "Director of Logistics & Equipment",
+      hometown: "Keller, Texas",
+      photo: "headshot-12.jpg",
+      bio: "Luke is a former Oklahoma State defenseman. He played two seasons for the Cowboys (2022–24). He now supports team operations in a full-time staff role."
+    },
+    {
+      group: "Executive Board",
+      name: "Rich Kuzmeski",         // TODO: hometown, photo, bio
+      title: "Faculty Advisor",
+      hometown: "",
+      photo: "",
+      bio: ""
+    },
+    {
+      group: "Executive Board",
+      name: "Todd Misener",          // TODO: hometown, photo, bio
+      title: "Head of Compliance & Public Relations",
+      hometown: "",
+      photo: "",
+      bio: ""
+    },
+
+    /* ---------- Student Committee ---------- */
+    {
+      group: "Student Committee",
+      name: "Evan Schreyer",
+      title: "President of Hockey Operations",
+      hometown: "Dallas, Texas",
+      photo: "headshot-03.jpg",
+      bio: "As President of Hockey Operations, Evan Schreyer runs the club’s day-to-day hockey operations, overseeing gameday operations, broadcast, and operational media, along with scheduling and ACHA league compliance.\n\nNow in a fourth season with the program, Evan previously served as director of gameday operations during the 2025–26 season, which drew a record-breaking crowd at the BOK Center. A Dallas native, Evan earned a B.S. in sports management from Oklahoma State in 2026 and is now pursuing an M.S. in business analytics and data science."
+    },
+    {
+      group: "Student Committee",
+      name: "Abby Walston",
+      title: "President of Media & Communications",
+      hometown: "Allen, Texas",
+      photo: "headshot-08.jpg",
+      bio: "Abby Walston is a senior studying sports media at Oklahoma State and is in a second year with the team. After starting as Director of Social Media, Abby was promoted to President of Media & Communications, overseeing the program’s marketing and media teams.\n\nAbby grew up loving football, quickly started following hockey in high school, and hopes to work in the NHL one day. Abby is excited for this season and can’t wait to see the team succeed."
+    },
+    {
+      group: "Student Committee",
+      name: "Jadin Caldwell",
+      title: "President of Finance",
+      hometown: "Harrah, Okla.",
+      photo: "headshot-13.jpg",
+      bio: "Jadin Caldwell is a senior majoring in marketing analytics at Oklahoma State. Now in a fifth year with the program, Jadin played for the Cowboys for four seasons before moving to the staff side as President of Finance, one of the program’s three student presidents, leading its financial operations.\n\nFor the record, Jadin would like everyone to know: 6-foot-3."
+    },
+    {
+      group: "Student Committee",
+      name: "Samuel Carlisle",
+      title: "Assistant to the Chairman",
+      hometown: "Ponca City, Okla.",
+      photo: "headshot-09.jpg",
+      bio: "Samuel Carlisle is a husband, father, U.S. Navy veteran, and student at Oklahoma State."
+    },
+    {
+      group: "Student Committee",
+      name: "Adam Pool",
+      title: "Director of Finance",
+      hometown: "Lucas, Texas",
+      photo: "headshot-05.jpg",
+      bio: "Adam Pool is an Oklahoma State graduate from Lucas, Texas, with a bachelor’s degree in finance. Away from the rink, Adam enjoys hanging out with friends, working out, golfing, and watching all types of sports."
+    },
+    {
+      group: "Student Committee",
+      name: "Theodore Walker",
+      title: "Director of Sponsorships",
+      hometown: "Dallas, Texas",
+      photo: "headshot-19.jpg",
+      bio: "Theodore Walker is a sophomore at Oklahoma State majoring in economics. Theodore is also a member of Phi Gamma Delta."
+    },
+    {
+      group: "Student Committee",
+      name: "Andi Vanden Boom",
+      title: "Director of Marketing",
+      hometown: "Chicago, Ill.",
+      photo: "headshot-16.jpg",
+      bio: "Andi Vanden Boom is a senior studying strategic communications at Oklahoma State. A longtime hockey fan, Andi has worked across a variety of sports, and this season marks Andi’s first full year with the team. Andi is excited to keep growing with Cowboy Hockey while pursuing a passion for sports marketing and a future career in professional hockey."
+    },
+    {
+      group: "Student Committee",
+      name: "Lane Cowley",
+      title: "Director of Operational Media",
+      hometown: "Weatherford, Texas",
+      photo: "headshot-04.jpg",
+      bio: "Lane Cowley is a junior sports management major and a huge Dallas Stars fan."
+    },
+    {
+      group: "Student Committee",
+      name: "Aaron Stinson",
+      title: "Broadcast Director",
+      hometown: "Lone Grove, Okla.",
+      photo: "",
+      bio: "Aaron Stinson is a sports media major who has always been a huge fan of sports and gaming, from watching games to keeping up with everything happening in both worlds. For the past year and a half, Aaron has worked with Oklahoma State Hockey, gaining hands-on experience and learning more about the sports media industry. Aaron is excited to keep building those skills and hopes to turn a passion for sports, gaming, and media into a career."
+    },
+    {
+      group: "Student Committee",
+      name: "Autumn Hibbert",
+      title: "Gameday Operations Director",
+      hometown: "Oklahoma City, Okla.",
+      photo: "headshot-10.jpg",
+      bio: "Autumn Hibbert is a sophomore at Oklahoma State pursuing a B.A. in sports management. An Oklahoma City native with a lifelong love of sports, Autumn is pursuing a career in game day operations in the NHL and MLB."
+    },
+    {
+      group: "Student Committee",
+      name: "Cheyenne Shawn",
+      title: "Merchandise Director",
+      hometown: "Crowley, Texas",
+      photo: "headshot-07.jpg",
+      bio: "Born and raised in Texas, Cheyenne Shawn is a U.S. Navy veteran pursuing a degree in political science at Oklahoma State and is excited to be a part of OSU Hockey."
+    },
+
+    /* ---------- Coaching Staff ---------- */
+    {
+      group: "Coaching Staff",
+      name: "Jared Erickson",
+      title: "Head Coach",
+      hometown: "Waupaca, Wis.",
+      photo: "headshot-31.jpg",
+      bio: "Jared Erickson was born and raised in Waupaca, Wisconsin. Now in his second year coaching at Oklahoma State, he is excited to continue contributing to the program’s growth and success. Jared looks forward to building strong relationships, developing athletes, and helping Oklahoma State continue to move forward."
+    },
+    {
+      group: "Coaching Staff",
+      name: "Skyler Allen",          // TODO: hometown, photo, bio
+      title: "Assistant Coach",
+      hometown: "",
+      photo: "",
+      bio: ""
+    },
+    {
+      group: "Coaching Staff",
+      name: "Cooper Matthews",       // TODO: hometown, bio
+      title: "On-Ice Assistant",
+      hometown: "",
+      photo: "headshot-22.jpg",
+      bio: ""
+    }
+  ];
+  /* ======================= END EDIT HERE ======================= */
+
+  var PIN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>';
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function initials(name) {
+    return name.split(/\s+/).filter(Boolean).map(function (p) { return p[0]; }).slice(0, 2).join("").toUpperCase();
+  }
+  function photoHTML(p, eager) {
+    if (!p.photo) return '<div class="placeholder" aria-hidden="true">' + initials(p.name) + "</div>";
+    return '<img src="' + esc(IMG_BASE + p.photo) + '" alt="' + esc(p.name) + '"' + (eager ? "" : ' loading="lazy"') + ">";
+  }
+
+  var groupsEl = document.getElementById("osu-groups");
+  var filtersEl = document.getElementById("osu-filters");
+  var activeGroups = GROUPS.filter(function (g) { return STAFF.some(function (p) { return p.group === g; }); });
+
+  // Department sections
+  groupsEl.innerHTML = activeGroups.map(function (g) {
+    var cards = STAFF.map(function (p, i) {
+      if (p.group !== g) return "";
+      var open = p.bio
+        ? '<button class="card" data-i="' + i + '" aria-label="Read bio: ' + esc(p.name) + '">'
+        : '<div class="card static">';
+      return open +
+        '<div class="photo">' + photoHTML(p) + "</div>" +
+        '<div class="info">' +
+          '<div class="title">' + esc(p.title) + "</div>" +
+          '<div class="name">' + esc(p.name) + "</div>" +
+          (p.hometown ? '<div class="hometown">' + PIN + esc(p.hometown) + "</div>" : "") +
+          (p.bio ? '<div class="more">Read Bio <span>&rarr;</span></div>' : "") +
+        "</div>" + (p.bio ? "</button>" : "</div>");
+    }).join("");
+    return '<section class="group" data-group="' + esc(g) + '">' +
+      '<div class="group-head"><h2>' + esc(g) + "</h2></div>" +
+      '<div class="grid">' + cards + "</div></section>";
+  }).join("");
+
+  // Filter tabs
+  filtersEl.innerHTML = ["All Staff"].concat(activeGroups).map(function (g, i) {
+    return '<button class="filter" aria-pressed="' + (i === 0) + '" data-filter="' + (i === 0 ? "" : esc(g)) + '">' + esc(g) + "</button>";
+  }).join("");
+  filtersEl.addEventListener("click", function (e) {
+    var btn = e.target.closest(".filter");
+    if (!btn) return;
+    var f = btn.getAttribute("data-filter");
+    filtersEl.querySelectorAll(".filter").forEach(function (b) { b.setAttribute("aria-pressed", b === btn); });
+    groupsEl.querySelectorAll(".group").forEach(function (s) { s.hidden = f && s.getAttribute("data-group") !== f; });
+  });
+
+  // Bio modal
+  var modal = document.getElementById("osu-modal");
+  var closeBtn = document.getElementById("osu-close");
+  var lastFocus = null;
+
+  function openModal(p) {
+    document.getElementById("osu-modal-photo").innerHTML = photoHTML(p, true);
+    document.getElementById("osu-modal-title").textContent = p.title;
+    document.getElementById("osu-modal-name").textContent = p.name;
+    document.getElementById("osu-modal-hometown").innerHTML = p.hometown ? PIN + esc(p.hometown) : "";
+    document.getElementById("osu-modal-bio").innerHTML = (p.bio || "").split(/\n\s*\n/).map(function (para) {
+      return "<p>" + esc(para) + "</p>";
+    }).join("");
+    lastFocus = document.activeElement;
+    modal.classList.add("open");
+    if (EMBEDDED) {
+      // The frame is as tall as the whole page, so open the bio beside the clicked card instead of mid-frame
+      var sheet = modal.querySelector(".sheet");
+      var docH = root.offsetHeight;
+      modal.style.height = docH + "px";
+      var top = (cardEl ? cardEl.getBoundingClientRect().top + window.scrollY : 0) - 40;
+      sheet.style.marginTop = Math.max(16, Math.min(top, docH - sheet.offsetHeight - 16)) + "px";
+    } else {
+      document.body.style.overflow = "hidden";
+    }
+    closeBtn.focus({ preventScroll: true });
+  }
+  function closeModal() {
+    modal.classList.remove("open");
+    document.body.style.overflow = "";
+    if (lastFocus) lastFocus.focus({ preventScroll: true });
+  }
+
+  var cardEl = null;
+  groupsEl.addEventListener("click", function (e) {
+    var card = e.target.closest(".card");
+    if (!card || !card.hasAttribute("data-i")) return;
+    cardEl = card;
+    openModal(STAFF[+card.getAttribute("data-i")]);
+  });
+  closeBtn.addEventListener("click", closeModal);
+
+  // When embedded on the website, tell the GoDaddy embed code how tall this page is so the box always fits
+  if (EMBEDDED) {
+    var lastH = 0;
+    var sendHeight = function () {
+      var h = Math.ceil(root.offsetHeight);
+      if (h < 200 || h === lastH) return;
+      lastH = h;
+      window.parent.postMessage({ type: "osu-staff-height", height: h }, "*");
+    };
+    if (window.ResizeObserver) new ResizeObserver(sendHeight).observe(root);
+    window.addEventListener("load", sendHeight);
+    window.addEventListener("resize", sendHeight);
+    setInterval(sendHeight, 1500);     // backup in case a resize notification is missed
+  }
+  modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+  });
+})();
+</script>
+</body>
+</html>
